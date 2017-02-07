@@ -19,25 +19,24 @@ class DanmakuFrame{
 		this.fps=30;
 		this.working=false;
 		this.modules={};//constructed module list
-		for(let m of DanmakuFrame.moduleList){//install all modules
-			this.install(m[0]);
-		}
+		for(let m of DanmakuFrame.moduleList)//init all modules
+			this.initModule(m[0]);
 	}
 	enable(name){
 		let module=this.modules[name];
-		if(!module)return this.install(name);
+		if(!module)return this.initModule(name);
 		module.enabled=true;
-		module.enable();
+		module.enable&&module.enable();
 		return true;
 	}
 	disable(name){
 		let module=this.modules[name];
 		if(!module)return false;
 		module.enabled=false;
-		module.disable();
+		module.disable&&module.disable();
 		return true;
 	}
-	install(name){
+	initModule(name){
 		let mod=DanmakuFrame.moduleList.get(name);
 		if(!mod)throw('Module ['+name+'] does not exist.');
 		let module=new mod(this);
@@ -50,29 +49,35 @@ class DanmakuFrame{
 	set time(t){//current media time (ms)
 		this.media||(this.timeBase=Date.now()-t);
 		for(let m in this.modules)//let all mods know when the time be set
-			this.modules[m].time(t);
+			this.modules[m].time&&this.modules[m].time(t);
 	}
 	get time(){
 		return this.media?this.media.currentTime*1000000:(Date.now()-this.timeBase);
 	}
 	load(danmakuObj){
 		for(let m in this.modules)
-			this.modules[m].load(danmakuObj);
+			this.modules[m].load&&this.modules[m].load(danmakuObj);
 	}
 	unload(danmakuObj){
 		for(let m in this.modules)
-			this.modules[m].unload(danmakuObj);
+			this.modules[m].unload&&this.modules[m].unload(danmakuObj);
 	}
 	start(){
 		this.working=true;
+		for(let m in this.modules)
+			this.modules[m].start&&this.modules[m].start();
 		this.draw();
 	}
 	pause(){
 		this.working=false;
+		for(let m in this.modules)
+			this.modules[m].pause&&this.modules[m].pause();
 	}
 	stop(){
 		this.working=false;
-		this.COL.clear();
+		for(let m in this.modules)
+			this.modules[m].stop&&this.modules[m].stop();
+		this.COL.clear();//clear the canvas
 	}
 	draw(){
 		if(this.working===false)return;
@@ -82,7 +87,7 @@ class DanmakuFrame{
 			setTimeout(()=>{this.draw();},1000/this.fps);
 		}
 		for(let m in this.modules)
-			this.modules[m].draw();
+			this.modules[m].draw&&this.modules[m].draw();
 		this.COL.draw();
 	}
 	static addModule(name,module){
@@ -101,9 +106,12 @@ class DanmakuFrameModule{
 		this.frame=frame;
 		this.enabled=false;
 	}
-	enable(){}
+	/*enable(){}
 	disable(){}
 	load(){}
 	frame(){}
 	time(){}
+	start(){}
+	pause(){}
+	stop(){}*/
 }
