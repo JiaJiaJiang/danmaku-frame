@@ -2,6 +2,7 @@
 Copyright luojia@luojia.me
 LGPL license
 */
+import './COL/CanvasObjLibrary.js';
 
 'use strict';
 
@@ -115,3 +116,5 @@ class DanmakuFrameModule{
 	pause(){}
 	stop(){}*/
 }
+
+export {DanmakuFrame,DanmakuFrameModule}
