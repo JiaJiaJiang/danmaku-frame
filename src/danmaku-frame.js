@@ -2,7 +2,7 @@
 Copyright luojia@luojia.me
 LGPL license
 */
-import './COL/CanvasObjLibrary.js';
+import '../lib/COL/CanvasObjLibrary.js';
 
 'use strict';
 
