@@ -5,7 +5,6 @@ LGPL license
 import '../lib/COL/CanvasObjLibrary.js';
 
 'use strict';
-
 class DanmakuFrame{
 	constructor(canvas){
 		if(canvas && (canvas instanceof HTMLCanvasElement === false))
