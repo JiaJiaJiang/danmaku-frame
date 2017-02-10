@@ -58,6 +58,10 @@ class DanmakuFrame{
 		for(let m in this.modules)
 			this.modules[m].load&&this.modules[m].load(danmakuObj);
 	}
+	loadList(danmakuArray){
+		for(let m in this.modules)
+			this.modules[m].loadList&&this.modules[m].loadList(danmakuObj);
+	}
 	unload(danmakuObj){
 		for(let m in this.modules)
 			this.modules[m].unload&&this.modules[m].unload(danmakuObj);
