@@ -2,17 +2,13 @@
 Copyright luojia@luojia.me
 LGPL license
 */
-import '../lib/COL/CanvasObjLibrary.js';
+import ResizeSensor from '../lib/ResizeSensor.js';
 
 'use strict';
 class DanmakuFrame{
-	constructor(canvas){
-		if(canvas && (canvas instanceof HTMLCanvasElement === false))
-			throw('The first arg should be a canvas or empty');
-		this.canvas=canvas||document.createElement('canvas');//the canvas
-		this.context2d=this.canvas.getContext('2d');//the canvas context
-		this.COL=new CanvasObjLibrary(this.canvas);//the library
-
+	constructor(container){
+		this.container=container||document.createElement('div');
+		this.container.id='danmaku_container';
 		this.rate=1;
 		this.timeBase=0;
 		this.media=null;
@@ -21,6 +17,9 @@ class DanmakuFrame{
 		this.modules={};//constructed module list
 		for(let m of DanmakuFrame.moduleList)//init all modules
 			this.initModule(m[0]);
+		this._containerResizeSensor=new ResizeSensor(this.container,()=>{
+			this.resize();
+		});
 	}
 	enable(name){
 		let module=this.modules[name];
@@ -81,7 +80,10 @@ class DanmakuFrame{
 		this.working=false;
 		for(let m in this.modules)
 			this.modules[m].stop&&this.modules[m].stop();
-		this.COL.clear();//clear the canvas
+	}
+	resize(){
+		for(let m in this.modules)
+			this.modules[m].resize&&this.modules[m].resize();
 	}
 	draw(){
 		if(this.working===false)return;
@@ -92,7 +94,6 @@ class DanmakuFrame{
 		}
 		for(let m in this.modules)
 			this.modules[m].draw&&this.modules[m].draw();
-		this.COL.draw();
 	}
 	static addModule(name,module){
 		if(this.moduleList.has(name)){
