@@ -82,6 +82,7 @@ class DanmakuFrame{
 			this.modules[m].stop&&this.modules[m].stop();
 	}
 	resize(){
+		console.debug('container resized');
 		for(let m in this.modules)
 			this.modules[m].resize&&this.modules[m].resize();
 	}
