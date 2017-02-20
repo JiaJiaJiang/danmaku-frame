@@ -17,9 +17,12 @@ class DanmakuFrame{
 		this.modules={};//constructed module list
 		for(let m of DanmakuFrame.moduleList)//init all modules
 			this.initModule(m[0]);
-		this._containerResizeSensor=new ResizeSensor(this.container,()=>{
-			this.resize();
-		});
+		setTimeout(()=>{//container size sensor
+			this.container.ResizeSensor=new ResizeSensor(this.container,()=>{
+				this.resize();
+			});
+		},0);
+		
 	}
 	enable(name){
 		let module=this.modules[name];
@@ -47,44 +50,39 @@ class DanmakuFrame{
 	}
 	set time(t){//current media time (ms)
 		this.media||(this.timeBase=Date.now()-t);
-		for(let m in this.modules)//let all mods know when the time be set
-			this.modules[m].time&&this.modules[m].time(t);
+		this.moduleFunction('time',t);//let all mods know when the time be set
 	}
 	get time(){
 		return this.media?this.media.currentTime*1000000:(Date.now()-this.timeBase);
 	}
 	load(danmakuObj){
-		for(let m in this.modules)
-			this.modules[m].load&&this.modules[m].load(danmakuObj);
+		this.moduleFunction('load');
 	}
 	loadList(danmakuArray){
-		for(let m in this.modules)
-			this.modules[m].loadList&&this.modules[m].loadList(danmakuObj);
+		this.moduleFunction('loadList',danmakuArray);
 	}
 	unload(danmakuObj){
-		for(let m in this.modules)
-			this.modules[m].unload&&this.modules[m].unload(danmakuObj);
+		this.moduleFunction('unload',danmakuObj);
 	}
 	start(){
 		this.working=true;
-		for(let m in this.modules)
-			this.modules[m].start&&this.modules[m].start();
+		this.moduleFunction('start');
 		this.draw();
 	}
 	pause(){
 		this.working=false;
-		for(let m in this.modules)
-			this.modules[m].pause&&this.modules[m].pause();
+		this.moduleFunction('pause');
 	}
 	stop(){
 		this.working=false;
-		for(let m in this.modules)
-			this.modules[m].stop&&this.modules[m].stop();
+		this.moduleFunction('stop');
 	}
 	resize(){
-		console.debug('container resized');
+		this.moduleFunction('resize');
+	}
+	moduleFunction(name,...arg){
 		for(let m in this.modules)
-			this.modules[m].resize&&this.modules[m].resize();
+			this.modules[m][name]&&this.modules[m][name](...arg);
 	}
 	draw(){
 		if(this.working===false)return;
@@ -93,8 +91,10 @@ class DanmakuFrame{
 		}else{
 			setTimeout(()=>{this.draw();},1000/this.fps);
 		}
-		for(let m in this.modules)
-			this.modules[m].draw&&this.modules[m].draw();
+		this.moduleFunction('draw');
+	}
+	setMedia(media){
+		this.media=media;
 	}
 	static addModule(name,module){
 		if(this.moduleList.has(name)){
