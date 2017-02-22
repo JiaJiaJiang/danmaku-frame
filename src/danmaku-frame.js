@@ -46,6 +46,7 @@ class DanmakuFrame{
 			throw('Constructor of '+name+' is not extended from DanmakuFrameModule');
 		module.enabled=true;
 		this.modules[name]=module;
+		console.debug(`Mod Inited: ${name}`);
 		return true;
 	}
 	set time(t){//current media time (ms)
