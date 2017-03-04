@@ -21,6 +21,7 @@ class DanmakuFrame{
 			this.container.ResizeSensor=new ResizeSensor(this.container,()=>{
 				this.resize();
 			});
+			this.resize();
 		},0);
 		
 	}
