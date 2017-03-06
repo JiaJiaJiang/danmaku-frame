@@ -95,6 +95,28 @@ class DanmakuFrame{
 	}
 	setMedia(media){
 		this.media=media;
+		addEvents(media,{
+			playing:()=>{
+				this.start();
+			},
+			pause:()=>{
+				this.pause();
+			},
+			stalled:()=>{
+				this.pause();
+			},
+			ratechange:()=>{
+				this.rate=this.video.playbackRate;
+			},
+			seeked:()=>{
+				this.time=this.time;
+				this.working&&this.start();
+			},
+			seeking:()=>{
+				this.pause();
+			}
+		});
+		this.moduleFunction('media',media);
 	}
 	static addModule(name,module){
 		if(this.moduleList.has(name)){
@@ -120,6 +142,9 @@ class DanmakuFrameModule{
 	start(){}
 	pause(){}
 	stop(){}*/
+}
+function addEvents(target,events={}){
+	for(let e in events)e.split(/\,/g).forEach(e2=>target.addEventListener(e2,events[e]));
 }
 
 export {DanmakuFrame,DanmakuFrameModule}
