@@ -89,9 +89,9 @@ class DanmakuFrame{
 		console.log('resize')
 		this.moduleFunction('resize');
 	}
-	moduleFunction(name,...arg){
+	moduleFunction(name,arg){
 		for(let m in this.modules)
-			this.modules[m][name]&&this.modules[m][name](...arg);
+			this.modules[m][name]&&this.modules[m][name](arg);
 	}
 	setMedia(media){
 		this.media=media;
@@ -106,15 +106,8 @@ class DanmakuFrame{
 				this.pause();
 			},
 			ratechange:()=>{
-				this.rate=this.video.playbackRate;
+				this.rate=this.media.playbackRate;
 			},
-			seeked:()=>{
-				this.time=this.time;
-				this.working&&this.start();
-			},
-			seeking:()=>{
-				this.pause();
-			}
 		});
 		this.moduleFunction('media',media);
 	}
