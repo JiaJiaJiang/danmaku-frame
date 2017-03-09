@@ -102,9 +102,6 @@ class DanmakuFrame{
 			pause:()=>{
 				this.pause();
 			},
-			stalled:()=>{
-				this.pause();
-			},
 			ratechange:()=>{
 				this.rate=this.media.playbackRate;
 			},
