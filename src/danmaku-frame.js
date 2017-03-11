@@ -76,17 +76,14 @@ class DanmakuFrame{
 	}
 	start(){
 		if(this.working)return;
-		console.log('start')
 		this.working=true;
 		this.moduleFunction('start');
 	}
 	pause(){
-		console.log('pause')
 		this.working=false;
 		this.moduleFunction('pause');
 	}
 	resize(){
-		console.log('resize')
 		this.moduleFunction('resize');
 	}
 	moduleFunction(name,arg){
@@ -124,14 +121,6 @@ class DanmakuFrameModule{
 		this.frame=frame;
 		this.enabled=false;
 	}
-	/*enable(){}
-	disable(){}
-	load(){}
-	frame(){}
-	time(){}
-	start(){}
-	pause(){}
-	stop(){}*/
 }
 function addEvents(target,events={}){
 	for(let e in events)e.split(/\,/g).forEach(e2=>target.addEventListener(e2,events[e]));
