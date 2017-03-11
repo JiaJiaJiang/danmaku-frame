@@ -15,8 +15,7 @@ class DanmakuFrame{
 		this.fps=0;
 		this.working=false;
 		this.modules={};//constructed module list
-		for(let m of DanmakuFrame.moduleList)//init all modules
-			this.initModule(m[0]);
+		DanmakuFrame.moduleList.forEach(m=>this.initModule(m[0]));//init all modules
 		setTimeout(()=>{//container size sensor
 			this.container.ResizeSensor=new ResizeSensor(this.container,()=>{
 				this.resize();
