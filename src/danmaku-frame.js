@@ -15,7 +15,10 @@ class DanmakuFrame{
 		this.fps=0;
 		this.working=false;
 		this.modules={};//constructed module list
-		DanmakuFrame.moduleList.forEach(m=>this.initModule(m[0]));//init all modules
+		for(let m in DanmakuFrame.moduleList){//init all modules
+			this.initModule(m)
+		}
+
 		setTimeout(()=>{//container size sensor
 			this.container.ResizeSensor=new ResizeSensor(this.container,()=>{
 				this.resize();
@@ -47,7 +50,7 @@ class DanmakuFrame{
 		return true;
 	}
 	initModule(name){
-		let mod=DanmakuFrame.moduleList.get(name);
+		let mod=DanmakuFrame.moduleList[name];
 		if(!mod)throw('Module ['+name+'] does not exist.');
 		let module=new mod(this);
 		if(module instanceof DanmakuFrameModule === false)
@@ -105,15 +108,15 @@ class DanmakuFrame{
 		this.moduleFunction('media',media);
 	}
 	static addModule(name,module){
-		if(this.moduleList.has(name)){
+		if(name in this.moduleList){
 			console.warn('The module "'+name+'" has already been added.');
 			return;
 		}
-		this.moduleList.set(name,module);
+		this.moduleList[name]=module;
 	} 
 }
 
-DanmakuFrame.moduleList=new Map();
+DanmakuFrame.moduleList={};
 
 class DanmakuFrameModule{
 	constructor(frame){
