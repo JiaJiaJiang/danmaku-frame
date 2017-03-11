@@ -15,6 +15,7 @@ class DanmakuFrame{
 		this.fps=0;
 		this.working=false;
 		this.modules={};//constructed module list
+		this.moduleList=[];
 		for(let m in DanmakuFrame.moduleList){//init all modules
 			this.initModule(m)
 		}
@@ -57,6 +58,7 @@ class DanmakuFrame{
 			throw('Constructor of '+name+' is not extended from DanmakuFrameModule');
 		module.enabled=true;
 		this.modules[name]=module;
+		this.moduleList.push(name);
 		console.debug(`Mod Inited: ${name}`);
 		return true;
 	}
@@ -89,8 +91,12 @@ class DanmakuFrame{
 		this.moduleFunction('resize');
 	}
 	moduleFunction(name,arg){
-		for(let m in this.modules)
-			this.modules[m][name]&&this.modules[m][name](arg);
+		let m;
+		for(let i=0;i<this.moduleList.length;i++){
+			m=this.modules[this.moduleList[i]];
+			if(m[name])m[name](arg);
+		}
+			
 	}
 	setMedia(media){
 		this.media=media;
