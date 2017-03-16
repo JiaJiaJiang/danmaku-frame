@@ -91,8 +91,7 @@ class DanmakuFrame{
 		this.moduleFunction('resize');
 	}
 	moduleFunction(name,arg){
-		let m;
-		for(let i=0;i<this.moduleList.length;i++){
+		for(let i=0,m;i<this.moduleList.length;i++){
 			m=this.modules[this.moduleList[i]];
 			if(m[name])m[name](arg);
 		}
