@@ -133,4 +133,4 @@ function addEvents(target,events={}){
 	for(let e in events)e.split(/\,/g).forEach(e2=>target.addEventListener(e2,events[e]));
 }
 
-export {DanmakuFrame,DanmakuFrameModule}
+export {DanmakuFrame,DanmakuFrameModule,ResizeSensor}
