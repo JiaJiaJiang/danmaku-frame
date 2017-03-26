@@ -27,12 +27,12 @@ class DanmakuFrame{
 			this.resize();
 		},0);
 		const draw=()=>{
+			this.moduleFunction('draw');
 			if(this.fps===0){
 				requestAnimationFrame(draw);
 			}else{
 				setTimeout(draw,1000/this.fps);
 			}
-			this.moduleFunction('draw');
 		}
 		draw();
 	}
