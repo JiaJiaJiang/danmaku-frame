@@ -70,7 +70,7 @@ class DanmakuFrame{
 		return this.media?(this.media.currentTime*1000)|0:(Date.now()-this.timeBase);
 	}
 	load(danmakuObj){
-		this.moduleFunction('load');
+		this.moduleFunction('load',danmakuObj);
 	}
 	loadList(danmakuArray){
 		this.moduleFunction('loadList',danmakuArray);
