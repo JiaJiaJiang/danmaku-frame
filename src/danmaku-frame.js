@@ -2,9 +2,9 @@
 Copyright luojia@luojia.me
 LGPL license
 */
-import ResizeSensor from '../lib/ResizeSensor.js';
-
 'use strict';
+
+import ResizeSensor from '../lib/ResizeSensor.js';
 class DanmakuFrame{
 	constructor(container){
 		this.container=container||document.createElement('div');
