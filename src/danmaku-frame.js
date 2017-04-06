@@ -16,6 +16,8 @@ class DanmakuFrame{
 		this.working=false;
 		this.modules={};//constructed module list
 		this.moduleList=[];
+		this.width=0;
+		this.height=0;
 		for(let m in DanmakuFrame.moduleList){//init all modules
 			this.initModule(m)
 		}
@@ -26,15 +28,7 @@ class DanmakuFrame{
 			});
 			this.resize();
 		},0);
-		const draw=()=>{
-			this.moduleFunction('draw');
-			if(this.fps===0){
-				requestAnimationFrame(draw);
-			}else{
-				setTimeout(draw,1000/this.fps);
-			}
-		}
-		draw();
+		this.draw=this.draw.bind(this);
 	}
 	enable(name){
 		let module=this.modules[name];
@@ -69,6 +63,15 @@ class DanmakuFrame{
 	get time(){
 		return this.media?(this.media.currentTime*1000)|0:(Date.now()-this.timeBase);
 	}
+	draw(force){
+		if(!this.working)return;
+		this.moduleFunction('draw',force);
+		if(this.fps===0){
+			requestAnimationFrame(this.draw);
+		}else{
+			setTimeout(this.draw,1000/this.fps);
+		}
+	}
 	load(danmakuObj){
 		this.moduleFunction('load',danmakuObj);
 	}
@@ -82,12 +85,15 @@ class DanmakuFrame{
 		if(this.working)return;
 		this.working=true;
 		this.moduleFunction('start');
+		this.draw(true);
 	}
 	pause(){
 		this.working=false;
 		this.moduleFunction('pause');
 	}
 	resize(){
+		this.width=this.container.offsetWidth;
+		this.height=this.container.offsetHeight;
 		this.moduleFunction('resize');
 	}
 	moduleFunction(name,arg){
@@ -95,7 +101,6 @@ class DanmakuFrame{
 			m=this.modules[this.moduleList[i]];
 			if(m[name])m[name](arg);
 		}
-			
 	}
 	setMedia(media){
 		this.media=media;
