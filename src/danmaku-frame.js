@@ -8,7 +8,6 @@ import ResizeSensor from '../lib/ResizeSensor.js';
 class DanmakuFrame{
 	constructor(container){
 		this.container=container||document.createElement('div');
-		this.container.id='danmaku_container';
 		this.rate=1;
 		this.timeBase=0;
 		this.media=null;
