@@ -17,6 +17,10 @@ class DanmakuFrame{
 		this.moduleList=[];
 		this.width=0;
 		this.height=0;
+		const style=document.createElement("style");
+		document.head.appendChild(style);
+		this.styleSheet=style.sheet;
+		
 		for(let m in DanmakuFrame.moduleList){//init all modules
 			this.initModule(m)
 		}
