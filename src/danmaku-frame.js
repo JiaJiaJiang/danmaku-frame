@@ -9,14 +9,14 @@ class DanmakuFrame{
 	constructor(container){
 		this.container=container||document.createElement('div');
 		this.rate=1;
-		this.timeBase=0;
-		this.media=null;
+		this.timeBase=
+		this.width=
+		this.height=
 		this.fps=0;
+		this.media=null;
 		this.working=false;
 		this.modules={};//constructed module list
 		this.moduleList=[];
-		this.width=0;
-		this.height=0;
 		const style=document.createElement("style");
 		document.head.appendChild(style);
 		this.styleSheet=style.sheet;
@@ -108,15 +108,9 @@ class DanmakuFrame{
 	setMedia(media){
 		this.media=media;
 		addEvents(media,{
-			playing:()=>{
-				this.start();
-			},
-			pause:()=>{
-				this.pause();
-			},
-			ratechange:()=>{
-				this.rate=this.media.playbackRate;
-			},
+			playing:()=>this.start(),
+			pause:()=>this.pause(),
+			ratechange:()=>this.rate=this.media.playbackRate,
 		});
 		this.moduleFunction('media',media);
 	}
