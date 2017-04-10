@@ -102,7 +102,7 @@ class DanmakuFrame{
 	moduleFunction(name,arg){
 		for(let i=0,m;i<this.moduleList.length;i++){
 			m=this.modules[this.moduleList[i]];
-			if(m[name])m[name](arg);
+			if(m[name]&&m.enabled)m[name](arg);
 		}
 	}
 	setMedia(media){
