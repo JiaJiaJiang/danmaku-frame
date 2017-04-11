@@ -9,10 +9,7 @@ class DanmakuFrame{
 	constructor(container){
 		this.container=container||document.createElement('div');
 		this.rate=1;
-		this.timeBase=
-		this.width=
-		this.height=
-		this.fps=0;
+		this.timeBase=this.width=this.height=this.fps=0;
 		this.media=null;
 		this.working=false;
 		this.modules={};//constructed module list
@@ -39,6 +36,11 @@ class DanmakuFrame{
 		module.enabled=true;
 		module.enable&&module.enable();
 		return true;
+	}
+	addStyle(s){
+		if(typeof s === 'string')s=[s];
+		if(s instanceof Array === false)return;
+		s.forEach(r=>this.styleSheet.insertRule(r,this.styleSheet.cssRules.length));
 	}
 	disable(name){
 		let module=this.modules[name];
