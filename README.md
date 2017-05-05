@@ -13,7 +13,7 @@ import DanmakuFrame from 'danmaku-frame.js'
 添加模块
 
 * name : (string)模块名
-* class : (class)模块对象
+* class : (class)模块类
 
 添加模块需要在`DanmakuFrame`被`new`出来之前进行。
 
