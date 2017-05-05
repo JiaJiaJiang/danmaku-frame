@@ -116,6 +116,12 @@ import DanmakuFrame from 'danmaku-frame.js'
 ### .styleSheet
 (CSSStyleSheet)样式表对象
 
+### getter time
+(number)如果有媒体对象，即为媒体对象`currentTime`的值，否则为框架时间重置后的时间偏移量。单位：毫秒。
+
+### setter time
+如果没有媒体对象，将以此重置框架时间基准。对此属性赋值将会调用各模块的`time`函数，参数为此值。
+
 # 新建模块
 ```javascript
 import DanmakuFrameModule from 'danmaku-frame.js'
