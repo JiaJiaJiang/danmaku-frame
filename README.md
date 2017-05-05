@@ -95,6 +95,12 @@ import DanmakuFrame from 'danmaku-frame.js'
 ### .container
 (HTMLElement)放置弹幕框架的元素
 
+### .fps
+(number)框架调用draw方法的频率，如果为0即由`requestAnimationFrame`决定
+
+### .width .height
+(number)框架的宽高
+
 ### .rate
 (number)速率
 
