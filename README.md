@@ -30,7 +30,7 @@ import DanmakuFrame from 'danmaku-frame.js'
 ### .addStyle(cssText)
 在框架中添加一条css样式
 
-* cssText : (string)要添加的css样式字符串，如`.poi{cursor
+* cssText : (string)要添加的css样式字符串，如`.poi{cursor:pointer)`
 
 ### .draw(force)
 执行各模块的`draw`方法
