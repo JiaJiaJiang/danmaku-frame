@@ -89,25 +89,26 @@ import DanmakuFrame from 'danmaku-frame.js'
 * media : 媒体对象
 
 此方法会监听一些媒体事件来协调完成本框架的基本功能。
+
 此方法会调用各模块的`media`方法，具体行为见各模块。
 
 ### .container
-放置弹幕框架的元素
+(HTMLElement)放置弹幕框架的元素
 
 ### .rate
-速率
+(number)速率
 
 ### .media
-媒体对象
+(object)媒体对象
 
 ### .working
-框架是否正在工作
+(boolean)框架是否正在工作
 
 ### .modules
-已加载的模块
+(object)已加载的模块
 
 ### .styleSheet
-样式表对象
+(CSSStyleSheet)样式表对象
 
 # 新建模块
 ```javascript
@@ -121,7 +122,7 @@ class mod extends DanmakuFrameModule{
 ```
 
 ### .frame
-此模块属于的弹幕框架对象
+(object)此模块属于的弹幕框架对象
 
 # 加载模块
 ```javascript
