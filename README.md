@@ -58,7 +58,7 @@ import DanmakuFrame from 'danmaku-frame.js'
 
 * danmakuObj : (object)弹幕对象
 
-此方法会调用各模块的`load`方法并传递这个object，具体模块是否接受或如何处理，见各模块。
+此方法会调用各模块的`unload`方法并传递这个object，具体模块是否接受或如何处理，见各模块。
 
 ### .start()
 开始运行
