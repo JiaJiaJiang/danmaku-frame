@@ -37,17 +37,17 @@ class DanmakuFrame{
 		module.enable&&module.enable();
 		return true;
 	}
-	addStyle(s){
-		if(typeof s === 'string')s=[s];
-		if(s instanceof Array === false)return;
-		s.forEach(r=>this.styleSheet.insertRule(r,this.styleSheet.cssRules.length));
-	}
 	disable(name){
 		let module=this.modules[name];
 		if(!module)return false;
 		module.enabled=false;
 		module.disable&&module.disable();
 		return true;
+	}
+	addStyle(s){
+		if(typeof s === 'string')s=[s];
+		if(s instanceof Array === false)return;
+		s.forEach(r=>this.styleSheet.insertRule(r,this.styleSheet.cssRules.length));
 	}
 	initModule(name){
 		let mod=DanmakuFrame.moduleList[name];
