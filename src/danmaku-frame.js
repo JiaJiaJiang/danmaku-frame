@@ -116,13 +116,17 @@ class DanmakuFrame{
 		}
 	}
 	setMedia(media){
-		this.media=media;
+		const F=this;
+		F.media=media;
 		addEvents(media,{
-			playing:()=>this.start(),
-			pause:()=>this.pause(),
-			ratechange:()=>this.rate=this.media.playbackRate,
+			playing:()=>F.start(),
+			pause:()=>F.pause(),
+			ratechange:()=>{
+				F.rate=F.media.playbackRate;
+				F.moduleFunction('rate',F.rate);
+			},
 		});
-		this.moduleFunction('media',media);
+		F.moduleFunction('media',media);
 	}
 	static addModule(name,module){
 		if(name in this.moduleList){
