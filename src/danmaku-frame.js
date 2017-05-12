@@ -7,28 +7,35 @@ LGPL license
 import ResizeSensor from '../lib/ResizeSensor.js';
 class DanmakuFrame{
 	constructor(container){
-		this.container=container||document.createElement('div');
-		this.rate=1;
-		this.timeBase=this.width=this.height=this.fps=0;
-		this.media=null;
-		this.working=false;
-		this.modules={};//constructed module list
-		this.moduleList=[];
+		const F=this;
+		F.container=container||document.createElement('div');
+		F.rate=1;
+		F.timeBase=F.width=F.height=F.fps=0;
+		F.fpsTmp=0;
+		F.fpsRec=F.fps||60;
+		F.media=null;
+		F.working=false;
+		F.modules={};//constructed module list
+		F.moduleList=[];
 		const style=document.createElement("style");
 		document.head.appendChild(style);
-		this.styleSheet=style.sheet;
+		F.styleSheet=style.sheet;
 		
 		for(let m in DanmakuFrame.moduleList){//init all modules
-			this.initModule(m)
+			F.initModule(m)
 		}
 
 		setTimeout(()=>{//container size sensor
-			this.container.ResizeSensor=new ResizeSensor(this.container,()=>{
-				this.resize();
+			F.container.ResizeSensor=new ResizeSensor(F.container,()=>{
+				F.resize();
 			});
-			this.resize();
+			F.resize();
 		},0);
-		this.draw=this.draw.bind(this);
+		setInterval(()=>{
+			F.fpsRec=F.fpsTmp;
+			F.fpsTmp=0;
+		},1000);
+		F.draw=F.draw.bind(F);
 	}
 	enable(name){
 		let module=this.modules[name];
@@ -70,9 +77,10 @@ class DanmakuFrame{
 	}
 	draw(force){
 		if(!this.working)return;
+		this.fpsTmp++;
 		this.moduleFunction('draw',force);
 		if(this.fps===0){
-			requestAnimationFrame(this.draw);
+			requestAnimationFrame(()=>this.draw());
 		}else{
 			setTimeout(this.draw,1000/this.fps);
 		}
@@ -104,7 +112,7 @@ class DanmakuFrame{
 	moduleFunction(name,arg){
 		for(let i=0,m;i<this.moduleList.length;i++){
 			m=this.modules[this.moduleList[i]];
-			if(m[name]&&m.enabled)m[name](arg);
+			if(m.enabled&&m[name])m[name](arg);
 		}
 	}
 	setMedia(media){
