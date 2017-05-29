@@ -15,6 +15,7 @@ class DanmakuFrame{
 		F.fpsRec=F.fps||60;
 		F.media=null;
 		F.working=false;
+		F.enabled=true;
 		F.modules={};//constructed module list
 		F.moduleList=[];
 		const style=document.createElement("style");
@@ -38,6 +39,16 @@ class DanmakuFrame{
 		F.draw=F.draw.bind(F);
 	}
 	enable(name){
+		if(!name){
+			this.enabled=true;
+			if(this.media){
+				this.media.paused||this.start();
+			}else{
+				this.start();
+			}
+			this.container.hidden=false;
+			return;
+		}
 		let module=this.modules[name];
 		if(!module)return this.initModule(name);
 		module.enabled=true;
@@ -45,6 +56,13 @@ class DanmakuFrame{
 		return true;
 	}
 	disable(name){
+		if(!name){
+			this.pause();
+			this.moduleFunction('clear');
+			this.enabled=false;
+			this.container.hidden=true;
+			return;
+		}
 		let module=this.modules[name];
 		if(!module)return false;
 		module.enabled=false;
@@ -95,12 +113,13 @@ class DanmakuFrame{
 		this.moduleFunction('unload',danmakuObj);
 	}
 	start(){
-		if(this.working)return;
+		if(this.working||!this.enabled)return;
 		this.working=true;
 		this.moduleFunction('start');
 		this.draw(true);
 	}
 	pause(){
+		if(!this.enabled)return;
 		this.working=false;
 		this.moduleFunction('pause');
 	}
