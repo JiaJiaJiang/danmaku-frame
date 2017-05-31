@@ -139,7 +139,7 @@ class DanmakuFrame{
 		F.media=media;
 		addEvents(media,{
 			playing:()=>F.start(),
-			pause:()=>F.pause(),
+			'pause,stalled,seeking':()=>F.pause(),
 			ratechange:()=>{
 				F.rate=F.media.playbackRate;
 				F.moduleFunction('rate',F.rate);
