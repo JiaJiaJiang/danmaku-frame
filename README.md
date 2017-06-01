@@ -18,12 +18,12 @@ import DanmakuFrame from 'danmaku-frame.js'
 添加模块需要在`DanmakuFrame`被`new`出来之前进行。
 
 ### .enable(name)   
-启用模块
+存在name参数时为启用某个模块，否则为启用框架。
 
 * name : (string)模块名
 
 ### .disable(name)
-禁用模块
+存在name参数时为禁用某个模块，否则为关闭框架。
 
 * name : (string)模块名
 
