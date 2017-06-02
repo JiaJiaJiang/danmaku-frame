@@ -103,8 +103,8 @@ class DanmakuFrame{
 			setTimeout(this.draw,1000/this.fps);
 		}
 	}
-	load(danmakuObj){
-		this.moduleFunction('load',danmakuObj);
+	load(...danmakuObj){
+		this.moduleFunction('load',...danmakuObj);
 	}
 	loadList(danmakuArray){
 		this.moduleFunction('loadList',danmakuArray);
@@ -128,10 +128,10 @@ class DanmakuFrame{
 		this.height=this.container.offsetHeight;
 		this.moduleFunction('resize');
 	}
-	moduleFunction(name,arg){
+	moduleFunction(name,...arg){
 		for(let i=0,m;i<this.moduleList.length;i++){
 			m=this.modules[this.moduleList[i]];
-			if(m.enabled&&m[name])m[name](arg);
+			if(m.enabled&&m[name])m[name](...arg);
 		}
 	}
 	setMedia(media){
