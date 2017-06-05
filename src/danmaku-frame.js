@@ -17,14 +17,11 @@ class DanmakuFrame{
 		F.working=false;
 		F.enabled=true;
 		F.modules={};//constructed module list
-		F.moduleList=[];
+		//F.moduleList=[];
 		const style=document.createElement("style");
 		document.head.appendChild(style);
 		F.styleSheet=style.sheet;
 		
-		for(let m in DanmakuFrame.moduleList){//init all modules
-			F.initModule(m)
-		}
 
 		setTimeout(()=>{//container size sensor
 			F.container.ResizeSensor=new ResizeSensor(F.container,()=>{
@@ -49,8 +46,8 @@ class DanmakuFrame{
 			this.container.hidden=false;
 			return;
 		}
-		let module=this.modules[name];
-		if(!module)return this.initModule(name);
+		let module=this.modules[name]||this.initModule(name);
+		if(!module)return false;
 		module.enabled=true;
 		module.enable&&module.enable();
 		return true;
@@ -74,17 +71,19 @@ class DanmakuFrame{
 		if(s instanceof Array === false)return;
 		s.forEach(r=>this.styleSheet.insertRule(r,this.styleSheet.cssRules.length));
 	}
-	initModule(name){
-		let mod=DanmakuFrame.moduleList[name];
+	initModule(name,arg){
+		if(this.modules[name]){
+			console.warn(`The module [${name}] has already inited.`);
+			return this.modules[name];
+		}
+		let mod=DanmakuFrame.availableModules[name];
 		if(!mod)throw('Module ['+name+'] does not exist.');
-		let module=new mod(this);
+		let module=new mod(this,arg);
 		if(module instanceof DanmakuFrameModule === false)
 			throw('Constructor of '+name+' is not extended from DanmakuFrameModule');
-		module.enabled=true;
 		this.modules[name]=module;
-		this.moduleList.push(name);
 		console.debug(`Mod Inited: ${name}`);
-		return true;
+		return module;
 	}
 	set time(t){//current media time (ms)
 		this.media||(this.timeBase=Date.now()-t);
@@ -129,8 +128,9 @@ class DanmakuFrame{
 		this.moduleFunction('resize');
 	}
 	moduleFunction(name,...arg){
-		for(let i=0,m;i<this.moduleList.length;i++){
-			m=this.modules[this.moduleList[i]];
+		let m;
+		for(let n in this.modules){
+			m=this.modules[n];
 			if(m.enabled&&m[name])m[name](...arg);
 		}
 	}
@@ -148,15 +148,15 @@ class DanmakuFrame{
 		F.moduleFunction('media',media);
 	}
 	static addModule(name,module){
-		if(name in this.moduleList){
+		if(name in this.availableModules){
 			console.warn('The module "'+name+'" has already been added.');
 			return;
 		}
-		this.moduleList[name]=module;
+		this.availableModules[name]=module;
 	} 
 }
 
-DanmakuFrame.moduleList={};
+DanmakuFrame.availableModules={};
 
 class DanmakuFrameModule{
 	constructor(frame){
