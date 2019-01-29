@@ -1,7 +1,7 @@
 # danmaku-frame
 弹幕框架
 
-![toDataURI-logo](https://jiajiajiang.github.io/staticRepo/danmaku-frame/logo.png)
+![logo](https://jiajiajiang.github.io/staticRepo/danmaku-frame/logo.png)
 
 # 加载框架
 ```javascript
